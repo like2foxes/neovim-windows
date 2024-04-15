@@ -299,5 +299,10 @@ return {
 		})
 
 		vim.cmd([[nnoremap \ :Neotree reveal<cr>]])
+
+		require('which-key').register({
+			e = { '<cmd>Neotree toggle<cr>', 'Toggle [E]xplorer' },
+			d = { '<cmd>Neotree %<cr>', 'Open [D]irectory' },
+		}, { prefix = '<leader>' })
 	end
 }

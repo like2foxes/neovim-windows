@@ -1,5 +1,6 @@
 vim.g.mapleader = ' '
-vim.keymap.set({'v','i', 'x', 'c'}, 'jk', '<esc>')
+vim.keymap.set('n', '<esc>', '<cmd>noh<cr>')
+vim.keymap.set({'v','i', 'x', 'c', 'n'}, 'jk', '<esc>')
 vim.keymap.set('t', 'jk', '<c-\\><c-n>')
 
 -- line numbers
@@ -32,11 +33,27 @@ vim.opt.foldenable = false
 -- path
 vim.opt.path:append '**'
 
--- timeout
-vim.opt.timeout = true
-vim.opt.timeoutlen = 300
-
+-- clipboard
 vim.opt.clipboard = 'unnamedplus'
+
+-- menu
+vim.opt.completeopt = 'menu,menuone,noselect'
+
+-- cursor
+vim.opt.cursorline = true
+
+-- grep using rg
+vim.opt.grepprg = "rg --vimgrep"
+
+-- scrolloff
+vim.opt.scrolloff = 4
+vim.opt.sidescrolloff = 8
+
+vim.opt.smartindent = true
+
+vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
+
+vim.opt.inccommand = 'split'
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then

@@ -29,7 +29,7 @@ return {
 		})
 
 		lsp.omnisharp.setup {
-			cmd = { "/omnisharp/OmniSharp.exe"},
+			cmd = { "/omnisharp/OmniSharp.exe" },
 
 			-- Enables support for reading code style, naming convention and analyzer
 			-- settings from .editorconfig.
@@ -66,5 +66,46 @@ return {
 			-- true
 			analyze_open_documents_only = false,
 		}
+
+		lsp.tsserver.setup({})
+
+		vim.api.nvim_create_autocmd('LspAttach', {
+			group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+			callback = function(ev)
+				-- Enable completion triggered by <c-x><c-o>
+				vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+				-- Buffer local mappings.
+				-- See `:help vim.lsp.*` for documentation on any of the below functions
+				local opts = { buffer = ev.buf }
+				local w_desc = function(desc)
+					return { buffer = ev.buf, desc = desc }
+				end
+				vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+				vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, w_desc('[D]eclaration'))
+				vim.keymap.set('n', 'gd', vim.lsp.buf.definition, w_desc('[D]efinition'))
+				vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, w_desc('[I]mplementation'))
+				vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+				vim.keymap.set('n', 'gr', vim.lsp.buf.references, w_desc('[R]eferences'))
+				vim.keymap.set('n', ']d', vim.diagnostic.goto_next, w_desc('Next [D]iagnostic'))
+				vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, w_desc('Previous [D]iagnostic'))
+
+				require('which-key').register({
+					l = {
+						name = '[L]sp',
+						a = { vim.lsp.buf.code_action, 'code [A]ction' },
+						f = { function() vim.lsp.buf.format { async = true } end, '[F]ormat buffer' },
+						r = { vim.lsp.buf.rename, '[R]ename' },
+						t = { vim.lsp.buf.type_definition, '[T]ype definition' },
+					},
+					w = {
+						name = '[W]orkspace',
+						a = { vim.lsp.buf.add_workspace_folder, '[A]dd workspace directory' },
+						r = { vim.lsp.buf.remove_workspace_folder, '[R]emove workspace directory' },
+						l = { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, '[L]ist workspace directory' },
+					}
+				}, { prefix = '<leader>' })
+			end,
+		})
 	end
 }
