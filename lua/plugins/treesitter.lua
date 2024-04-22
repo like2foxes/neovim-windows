@@ -3,7 +3,7 @@ return {
 		'nvim-treesitter/nvim-treesitter',
 		config = function()
 			require 'nvim-treesitter.configs'.setup({
-				ensure_installed = { "c", "lua", "vim", "vimdoc", "query" },
+				ensure_installed = { "c", "lua", "vim", "vimdoc", "query", 'markdown', 'markdown_inline' },
 				build = ':TSUpdate',
 				sync_install = false,
 				auto_install = true,
@@ -19,8 +19,24 @@ return {
 				},
 				indent = {
 					enable = true
+				},
+				textobjects = {
+					select = {
+						enable = true,
+
+						-- Automatically jump forward to textobj, similar to targets.vim
+						lookahead = true,
+
+						keymaps = {
+							["af"] = { query = "@function.outer", desc = 'Outer function' },
+							["if"] = { query = "@function.inner", desc = 'Inner function' },
+							["ac"] = { query = "@class.outer", desc = 'Outer class' },
+							["ic"] = { query = "@class.inner", desc = 'Inner class' },
+						},
+					}
 				}
 			})
+
 			local selection = require('nvim-treesitter.incremental_selection')
 			local to = require('nvim-treesitter.textobjects.move')
 
@@ -65,26 +81,29 @@ return {
 
 			local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
 
-			-- Repeat movement with ; and ,
-			-- ensure ; goes forward and , goes backward regardless of the last direction
-			vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
-			vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
-
 			-- vim way: ; goes to the direction you were moving.
-			-- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
-			-- vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
+			vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
+			vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
 
-			-- Optionally, make builtin f, F, t, T also repeatable with ; and ,
+			-- Make builtin f, F, t, T also repeatable with ; and ,
 			vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
 			vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
 			vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
 			vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
 
+			-- go to context
+			vim.keymap.set({ 'v', 'c' }, 'gc', function() require('treesitter-context').go_to_context(vim.v.count1) end,
+				{ desc = 'Go to Context' })
+
+			-- selection
 			require('which-key').register({
-				s = { selection.init_selection, 'Init [S]election' },
-				S = { selection.scope_incremental, '[S]cope selection' },
-				c = { function() require('treesitter-context').go_to_context(vim.v.count1) end, 'Go to [C]ontext' },
+				i = { selection.init_selection, '[I]nit Selection' },
+				I = { selection.scope_incremental, '[I]n Scope selection' },
 			}, { prefix = '<leader>' })
+
+			vim.keymap.set('v', 'gi', selection.node_incremental, { desc = 'Increment Selection' })
+			vim.keymap.set('v', 'gI', selection.node_decremental, { desc = 'Decrement Selection' })
+			vim.keymap.set('v', 'gs', selection.scope_incremental, { desc = 'Scope Selection' })
 
 			require('which-key').register({
 				s = { selection.node_incremental, 'Increment [S]election' },

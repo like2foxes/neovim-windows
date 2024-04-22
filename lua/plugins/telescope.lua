@@ -21,20 +21,18 @@ return {
 				},
 			},
 		}
+
+		vim.keymap.set('n', '<leader>T', ':Telescope ', {desc = '[T]elescope'})
 		require('which-key').register({
 			[' '] = { t.buffers, 'Buffers' },
 			['/'] = { t.current_buffer_fuzzy_find, 'Search Buffer' },
-			f = {
-				name = '[F]ind',
-				f = { find_git_files_or_all, '[F]iles' },
-				a = { t.find_files, '[A]ll files' },
-				g = { t.grep_string, '[G]rep string' },
-				l = { t.live_grep, '[L]ive grep' },
-				s = { t.lsp_document_symbols, 'Document [S]ymbols' },
-				S = { t.lsp_workspace_symbols, 'Workspace [S]ymbols' },
-				r = { t.lsp_references, '[R]eferences' },
-				d = { t.diagnostics, '[D]iagnostics' }
-			},
-		}, {prefix= '<leader>' })
+			f = { find_git_files_or_all, '[F]iles' },
+			F = { t.find_files, 'All [F]iles' },
+			g = { t.live_grep, 'Live [G]rep' },
+			G = { t.grep_string, '[G]rep string' },
+			s = { t.lsp_document_symbols, 'Document [S]ymbols' },
+			S = { t.lsp_workspace_symbols, 'Workspace [S]ymbols' },
+			d = { t.diagnostics, '[D]iagnostics' },
+		}, { prefix = '<leader>' })
 	end
 }

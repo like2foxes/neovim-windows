@@ -45,6 +45,10 @@ vim.opt.cursorline = true
 -- grep using rg
 vim.opt.grepprg = "rg --vimgrep"
 
+vim.opt.signcolumn = 'yes'
+
+vim.opt.autoread = true
+
 -- scrolloff
 vim.opt.scrolloff = 4
 vim.opt.sidescrolloff = 8
@@ -70,4 +74,6 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup('plugins')
 
 -- colors
-vim.cmd.colorscheme('tokyonight')
+vim.cmd.colorscheme('gruvbox')
+
+Dotnet = require('dotnet-picker')

@@ -2,7 +2,7 @@ return {
 	"folke/persistence.nvim",
 	event = "BufReadPre", -- this will only start session saving when an actual file was opened
 	opts = {},
-	config = function()
+	init = function()
 		require('which-key').register({
 			q = {
 				s = { '<cmd>lua require("persistence").load()<cr>', 'Load [S]ession' },
