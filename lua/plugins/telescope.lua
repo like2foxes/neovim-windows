@@ -33,6 +33,7 @@ return {
 			s = { t.lsp_document_symbols, 'Document [S]ymbols' },
 			S = { t.lsp_workspace_symbols, 'Workspace [S]ymbols' },
 			d = { t.diagnostics, '[D]iagnostics' },
+			H = { t.help_tags, '[H]elp tags'}
 		}, { prefix = '<leader>' })
 	end
 }
