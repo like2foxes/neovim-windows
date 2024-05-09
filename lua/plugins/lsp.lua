@@ -1,9 +1,16 @@
 return {
-	'neovim/nvim-lspconfig',
+	'VonHeikemen/lsp-zero.nvim',
+	branch = 'v3.x',
 	dependencies = {
-		'Hoffs/omnisharp-extended-lsp.nvim',
+		{ 'neovim/nvim-lspconfig' },
+		{ 'hrsh7th/cmp-nvim-lsp' },
+		{ 'hrsh7th/nvim-cmp' },
+		{ 'L3MON4D3/LuaSnip' },
+		{ 'Hoffs/omnisharp-extended-lsp.nvim'}
 	},
+
 	config = function()
+		local lsp_zero = require('lsp-zero')
 		local lsp = require('lspconfig')
 
 		lsp.lua_ls.setup({
@@ -33,61 +40,31 @@ return {
 
 		lsp.omnisharp.setup {
 			cmd = { "/omnisharp/OmniSharp.exe" },
-			settings = {
-				FormattingOptions = {
-					EnableEditorConfigSupport = true,
-					OrganizeImports = nil,
-				},
-				MsBuild = {
-					LoadProjectsOnDemand = false,
-				},
-				RoslynExtensionsOptions = {
-					EnableDecompilationSupport = true,
-					EnableAnalyzersSupport = true,
-					EnableImportCompletion = true,
-					AnalyzeOpenDocumentsOnly = false,
-				},
-				Sdk = {
-					IncludePrereleases = true,
-				},
+			handlers = {
+				["textDocument/definition"] = require('omnisharp_extended').definition_handler,
+				["textDocument/typeDefinition"] = require('omnisharp_extended').type_definition_handler,
+				["textDocument/references"] = require('omnisharp_extended').references_handler,
+				["textDocument/implementation"] = require('omnisharp_extended').implementation_handler,
 			},
 		}
 
 		lsp.tsserver.setup({})
 
-		vim.api.nvim_create_autocmd('LspAttach', {
-			group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-			callback = function(ev)
-				-- Enable completion triggered by <c-x><c-o>
-				vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+		lsp.jsonls.setup ({})
 
-				-- Buffer local mappings.
-				-- See `:help vim.lsp.*` for documentation on any of the below functions
-				local opts = { buffer = ev.buf }
+		lsp_zero.on_attach(function(client, bufnr)
+			-- see :help lsp-zero-keybindings
+			-- to learn the available actions
+			lsp_zero.default_keymaps({ buffer = bufnr })
+				local opts = { buffer = bufnr }
 				local w_desc = function(desc)
-					return { buffer = ev.buf, desc = desc }
+					return { buffer = bufnr, desc = desc }
 				end
 
-				local is_omni = function()
-					for _, value in pairs(vim.lsp.get_active_clients()) do
-						if value.name == 'omnisharp' then
-							return true
-						end
-					end
-					return false
-				end
-
-				if is_omni() then
-					local oe = require('omnisharp_extended')
-					vim.keymap.set('n', 'gd', oe.lsp_definition, w_desc('[D]efinition'))
-					vim.keymap.set('n', 'gi', oe.lsp_implementation, w_desc('[I]mplementation'))
-					vim.keymap.set('n', 'gr', oe.lsp_references, w_desc('[R]eferences'))
-				else
-					vim.keymap.set('n', 'gd', vim.lsp.buf.definition, w_desc('[D]efinition'))
-					vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, w_desc('[I]mplementation'))
-					vim.keymap.set('n', 'gr', vim.lsp.buf.references, w_desc('[R]eferences'))
-				end
-				--vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+				vim.keymap.set('n', 'gd', vim.lsp.buf.definition, w_desc('[D]efinition'))
+				vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, w_desc('[I]mplementation'))
+				vim.keymap.set('n', 'gr', vim.lsp.buf.references, w_desc('[R]eferences'))
+				vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
 				vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, w_desc('[D]eclaration'))
 				vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, opts)
 				vim.keymap.set('n', ']d', vim.diagnostic.goto_next, w_desc('Next [D]iagnostic'))
@@ -118,7 +95,6 @@ return {
 						l = { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, '[L]ist workspace directory' },
 					}
 				}, { prefix = '<leader>' })
-			end,
-		})
+		end)
 	end
 }
