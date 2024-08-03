@@ -6,7 +6,7 @@ return {
 		{ 'hrsh7th/cmp-nvim-lsp' },
 		{ 'hrsh7th/nvim-cmp' },
 		{ 'L3MON4D3/LuaSnip' },
-		{ 'Hoffs/omnisharp-extended-lsp.nvim'}
+		{ 'Hoffs/omnisharp-extended-lsp.nvim' }
 	},
 
 	config = function()
@@ -39,7 +39,7 @@ return {
 		})
 
 		lsp.omnisharp.setup {
-			cmd = { "/omnisharp/OmniSharp.exe" },
+			cmd = { "OmniSharp.exe" },
 			handlers = {
 				["textDocument/definition"] = require('omnisharp_extended').definition_handler,
 				["textDocument/typeDefinition"] = require('omnisharp_extended').type_definition_handler,
@@ -50,51 +50,51 @@ return {
 
 		lsp.tsserver.setup({})
 
-		lsp.jsonls.setup ({})
+		lsp.jsonls.setup({})
 
 		lsp_zero.on_attach(function(client, bufnr)
 			-- see :help lsp-zero-keybindings
 			-- to learn the available actions
 			lsp_zero.default_keymaps({ buffer = bufnr })
-				local opts = { buffer = bufnr }
-				local w_desc = function(desc)
-					return { buffer = bufnr, desc = desc }
-				end
+			local opts = { buffer = bufnr }
+			local w_desc = function(desc)
+				return { buffer = bufnr, desc = desc }
+			end
 
-				vim.keymap.set('n', 'gd', vim.lsp.buf.definition, w_desc('[D]efinition'))
-				vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, w_desc('[I]mplementation'))
-				vim.keymap.set('n', 'gr', vim.lsp.buf.references, w_desc('[R]eferences'))
-				vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-				vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, w_desc('[D]eclaration'))
-				vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, opts)
-				vim.keymap.set('n', ']d', vim.diagnostic.goto_next, w_desc('Next [D]iagnostic'))
-				vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, w_desc('Previous [D]iagnostic'))
-				vim.keymap.set('n', '<leader>\'', function() vim.lsp.buf.format { async = true } end,
-					w_desc('Format buffer'))
-				vim.keymap.set(
-					'v', '<leader>\'',
-					function()
-						vim.lsp.buf.format {
-							async = true,
-							range = {
-								['start'] = vim.api.nvim_buf_get_mark(0, '<'),
-								['end'] = vim.api.nvim_buf_get_mark(0, '>')
-							}
+			vim.keymap.set('n', 'gd', vim.lsp.buf.definition, w_desc('[D]efinition'))
+			vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, w_desc('[I]mplementation'))
+			vim.keymap.set('n', 'gr', vim.lsp.buf.references, w_desc('[R]eferences'))
+			vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+			vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, w_desc('[D]eclaration'))
+			vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, opts)
+			vim.keymap.set('n', ']d', vim.diagnostic.goto_next, w_desc('Next [D]iagnostic'))
+			vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, w_desc('Previous [D]iagnostic'))
+			vim.keymap.set('n', '<leader>\'', function() vim.lsp.buf.format { async = true } end,
+				w_desc('Format buffer'))
+			vim.keymap.set(
+				'v', '<leader>\'',
+				function()
+					vim.lsp.buf.format {
+						async = true,
+						range = {
+							['start'] = vim.api.nvim_buf_get_mark(0, '<'),
+							['end'] = vim.api.nvim_buf_get_mark(0, '>')
 						}
-					end,
-					w_desc('Format buffer')
-				)
-				vim.keymap.set({ 'n' }, '<leader>.', '<cmd>Lspsaga code_action<cr>', w_desc('Code Action'))
-				vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, w_desc('Rename'))
-
-				require('which-key').register({
-					w = {
-						name = '[W]orkspace',
-						a = { vim.lsp.buf.add_workspace_folder, '[A]dd workspace directory' },
-						r = { vim.lsp.buf.remove_workspace_folder, '[R]emove workspace directory' },
-						l = { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, '[L]ist workspace directory' },
 					}
-				}, { prefix = '<leader>' })
+				end,
+				w_desc('Format buffer')
+			)
+			vim.keymap.set({ 'n' }, '<leader>.', '<cmd>Lspsaga code_action<cr>', w_desc('Code Action'))
+			vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, w_desc('Rename'))
+
+			require('which-key').register({
+				w = {
+					name = '[W]orkspace',
+					a = { vim.lsp.buf.add_workspace_folder, '[A]dd workspace directory' },
+					r = { vim.lsp.buf.remove_workspace_folder, '[R]emove workspace directory' },
+					l = { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, '[L]ist workspace directory' },
+				}
+			}, { prefix = '<leader>' })
 		end)
 	end
 }
