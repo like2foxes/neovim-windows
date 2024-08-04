@@ -3,7 +3,7 @@ return {
 		'nvim-treesitter/nvim-treesitter',
 		config = function()
 			require 'nvim-treesitter.configs'.setup({
-				ensure_installed = { "c", "lua", "vim", "vimdoc", "query", 'markdown', 'markdown_inline' },
+				ensure_installed = {},
 				build = ':TSUpdate',
 				sync_install = false,
 				auto_install = true,
@@ -96,21 +96,22 @@ return {
 				{ desc = 'Go to Context' })
 
 			-- selection
-			require('which-key').register({
-				i = { selection.init_selection, '[I]nit Selection' },
-				I = { selection.scope_incremental, '[I]n Scope selection' },
-			}, { prefix = '<leader>' })
+			require('which-key').add({
+				{ '<leader>i', selection.init_selection,    desc = '[I]nit Selection' },
+				{ '<leader>I', selection.scope_incremental, desc = '[I]n Scope selection' },
+			})
 
 			vim.keymap.set('v', 'gi', selection.node_incremental, { desc = 'Increment Selection' })
 			vim.keymap.set('v', 'gI', selection.node_decremental, { desc = 'Decrement Selection' })
 			vim.keymap.set('v', 'gs', selection.scope_incremental, { desc = 'Scope Selection' })
 
-			require('which-key').register({
-				s = { selection.node_incremental, 'Increment [S]election' },
-				d = { selection.node_decremental, '[D]ecrement [S]election' },
-				[' '] = { selection.scope_incremental, 'Scope Selection' },
+			require('which-key').add({
+				mode = { 'v' },
+				{ '<leader>s', selection.node_incremental,  desc = 'Increment [S]election' },
+				{ '<leader>d', selection.node_decremental,  desc = '[D]ecrement [S]election' },
+				{ '<leader> ', selection.scope_incremental, desc = 'Scope Selection' },
 
-			}, { prefix = '<leader>', mode = 'v' })
+			})
 		end
 	},
 	{

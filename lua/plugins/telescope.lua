@@ -22,18 +22,18 @@ return {
 			},
 		}
 
-		vim.keymap.set('n', '<leader>T', ':Telescope ', {desc = '[T]elescope'})
-		require('which-key').register({
-			[' '] = { t.buffers, 'Buffers' },
-			['/'] = { t.current_buffer_fuzzy_find, 'Search Buffer' },
-			f = { find_git_files_or_all, '[F]iles' },
-			F = { t.find_files, 'All [F]iles' },
-			g = { t.live_grep, 'Live [G]rep' },
-			G = { t.grep_string, '[G]rep string' },
-			s = { t.lsp_document_symbols, 'Document [S]ymbols' },
-			S = { t.lsp_workspace_symbols, 'Workspace [S]ymbols' },
-			d = { t.diagnostics, '[D]iagnostics' },
-			H = { t.help_tags, '[H]elp tags'}
+		vim.keymap.set('n', '<leader>T', ':Telescope ', { desc = '[T]elescope' })
+		require('which-key').add({
+			{ '<leader> ', t.buffers,                   desc = 'Buffers' },
+			{ '<leader>/', t.current_buffer_fuzzy_find, desc = 'Search Buffer' },
+			{ '<leader>f', find_git_files_or_all,       desc = '[F]iles' },
+			{ '<leader>F', t.find_files,                desc = 'All [F]iles' },
+			{ '<leader>g', t.live_grep,                 desc = 'Live [G]rep' },
+			{ '<leader>G', t.grep_string,               desc = '[G]rep string' },
+			{ '<leader>s', t.lsp_document_symbols,      desc = 'Document [S]ymbols' },
+			{ '<leader>S', t.lsp_workspace_symbols,     desc = 'Workspace [S]ymbols' },
+			{ '<leader>d', t.diagnostics,               desc = '[D]iagnostics' },
+			{ '<leader>H', t.help_tags,                 desc = '[H]elp tags' }
 		}, { prefix = '<leader>' })
 	end
 }

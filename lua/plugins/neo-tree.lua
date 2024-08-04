@@ -300,9 +300,9 @@ return {
 
 		vim.cmd([[nnoremap \ :Neotree reveal<cr>]])
 
-		require('which-key').register({
-			e = { '<cmd>Neotree toggle<cr>', 'Toggle [E]xplorer' },
-			d = { '<cmd>Neotree %<cr>', 'Open [D]irectory' },
-		}, { prefix = '<leader>' })
+		require('which-key').add({
+			{ '<leader>e', '<cmd>Neotree toggle<cr>', desc = 'Toggle [E]xplorer' },
+			{ '<leader>D', '<cmd>Neotree %<cr>',      desc = 'Open [D]irectory' },
+		})
 	end
 }
