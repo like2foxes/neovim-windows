@@ -1,6 +1,6 @@
 vim.g.mapleader = ' '
 vim.keymap.set('n', '<esc>', '<cmd>noh<cr>')
-vim.keymap.set({'v','i', 'x', 'c', 'n'}, 'jk', '<esc>')
+vim.keymap.set({'i', 'x', 'c', 'n'}, 'jk', '<esc>')
 vim.keymap.set('t', 'jk', '<c-\\><c-n>')
 
 -- line numbers
