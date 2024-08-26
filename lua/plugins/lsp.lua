@@ -48,6 +48,8 @@ return {
 			},
 		}
 
+		lsp.clangd.setup({})
+
 		lsp.tsserver.setup({})
 
 		lsp.jsonls.setup({})
