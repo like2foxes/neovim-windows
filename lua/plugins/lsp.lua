@@ -48,7 +48,9 @@ return {
 			},
 		}
 
-		lsp.clangd.setup({})
+		lsp.clangd.setup({
+			
+		})
 
 		lsp.tsserver.setup({})
 

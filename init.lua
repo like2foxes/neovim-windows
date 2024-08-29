@@ -53,7 +53,7 @@ vim.opt.autoread = true
 vim.opt.scrolloff = 4
 vim.opt.sidescrolloff = 8
 
-vim.opt.smartindent = true
+vim.opt.smartindent = false
 
 vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
 
