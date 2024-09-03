@@ -1,3 +1,4 @@
+-- leader
 vim.g.mapleader = ' '
 vim.keymap.set('n', '<esc>', '<cmd>noh<cr>')
 vim.keymap.set({'i', 'x', 'c', 'n'}, 'jk', '<esc>')
@@ -72,8 +73,5 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup('plugins')
-
--- colors
-vim.cmd.colorscheme('gruvbox')
 
 Dotnet = require('dotnet-picker')
