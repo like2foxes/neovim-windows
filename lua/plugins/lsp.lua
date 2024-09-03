@@ -49,7 +49,7 @@ return {
 		}
 
 		lsp.clangd.setup({
-			
+
 		})
 
 		lsp.tsserver.setup({})
@@ -91,12 +91,11 @@ return {
 			vim.keymap.set({ 'n' }, '<leader>.', '<cmd>Lspsaga code_action<cr>', w_desc('Code Action'))
 			vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, w_desc('Rename'))
 
-			require('which-key').add({
-				group = '[W]orkspace',
-				{ '<leader>a', vim.lsp.buf.add_workspace_folder,                                        desc = '[A]dd workspace directory' },
-				{ '<leader>r', vim.lsp.buf.remove_workspace_folder,                                     desc = '[R]emove workspace directory' },
-				{ '<leader>l', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, desc = '[L]ist workspace directory' },
-			})
+			vim.keymap.set({ 'n' }, '<leader>wa', vim.lsp.buf.add_workspace_folder, { desc = '[A]dd workspace directory' })
+			vim.keymap.set({ 'n' }, '<leader>wr', vim.lsp.buf.remove_workspace_folder,
+				{ desc = '[R]emove workspace directory' })
+			vim.keymap.set({ 'n' }, '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
+				{ desc = '[L]ist workspace directory' })
 		end)
 	end
 }

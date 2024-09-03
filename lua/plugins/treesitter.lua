@@ -96,22 +96,11 @@ return {
 				{ desc = 'Go to Context' })
 
 			-- selection
-			require('which-key').add({
-				{ '<leader>i', selection.init_selection,    desc = '[I]nit Selection' },
-				{ '<leader>I', selection.scope_incremental, desc = '[I]n Scope selection' },
-			})
-
-			vim.keymap.set('v', 'gi', selection.node_incremental, { desc = 'Increment Selection' })
-			vim.keymap.set('v', 'gI', selection.node_decremental, { desc = 'Decrement Selection' })
-			vim.keymap.set('v', 'gs', selection.scope_incremental, { desc = 'Scope Selection' })
-
-			require('which-key').add({
-				mode = { 'v' },
-				{ '<leader>s', selection.node_incremental,  desc = 'Increment [S]election' },
-				{ '<leader>d', selection.node_decremental,  desc = '[D]ecrement [S]election' },
-				{ '<leader> ', selection.scope_incremental, desc = 'Scope Selection' },
-
-			})
+			vim.keymap.set('n', '<leader>i', selection.init_selection, { desc = '[I]nit Selection' })
+			vim.keymap.set('n', '<leader>I', selection.scope_incremental, { desc = '[I]n Scope selection' })
+			vim.keymap.set('v', '<leader>s', selection.node_incremental, { desc = 'Increment [S]election' })
+			vim.keymap.set('v', '<leader>d', selection.node_decremental, { desc = '[D]ecrement [S]election' })
+			vim.keymap.set('v', '<leader> ', selection.scope_incremental, { desc = 'Scope Selection' })
 		end
 	},
 	{

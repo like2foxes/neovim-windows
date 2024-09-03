@@ -10,30 +10,16 @@ return {
 			end
 		end
 
-		local trouble = require("trouble.sources.telescope")
-		local telescope = require("telescope")
-
-		telescope.setup {
-			defaults = {
-				mappings = {
-					i = { ["<c-t>"] = trouble.open_with_trouble },
-					n = { ["<c-t>"] = trouble.open_with_trouble },
-				},
-			},
-		}
-
 		vim.keymap.set('n', '<leader>T', ':Telescope ', { desc = '[T]elescope' })
-		require('which-key').add({
-			{ '<leader> ', t.buffers,                   desc = 'Buffers' },
-			{ '<leader>/', t.current_buffer_fuzzy_find, desc = 'Search Buffer' },
-			{ '<leader>f', find_git_files_or_all,       desc = '[F]iles' },
-			{ '<leader>F', t.find_files,                desc = 'All [F]iles' },
-			{ '<leader>g', t.live_grep,                 desc = 'Live [G]rep' },
-			{ '<leader>G', t.grep_string,               desc = '[G]rep string' },
-			{ '<leader>s', t.lsp_document_symbols,      desc = 'Document [S]ymbols' },
-			{ '<leader>S', t.lsp_workspace_symbols,     desc = 'Workspace [S]ymbols' },
-			{ '<leader>d', t.diagnostics,               desc = '[D]iagnostics' },
-			{ '<leader>H', t.help_tags,                 desc = '[H]elp tags' }
-		}, { prefix = '<leader>' })
+		vim.keymap.set('n', '<leader> ', t.buffers, { desc = 'Buffers' })
+		vim.keymap.set('n', '<leader>/', t.current_buffer_fuzzy_find, { desc = 'Search Buffer' })
+		vim.keymap.set('n', '<leader>f', find_git_files_or_all, { desc = '[F]iles' })
+		vim.keymap.set('n', '<leader>F', t.find_files, { desc = 'All [F]iles' })
+		vim.keymap.set('n', '<leader>g', t.live_grep, { desc = 'Live [G]rep' })
+		vim.keymap.set('n', '<leader>G', t.grep_string, { desc = '[G]rep string' })
+		vim.keymap.set('n', '<leader>s', t.lsp_document_symbols, { desc = 'Document [S]ymbols' })
+		vim.keymap.set('n', '<leader>S', t.lsp_workspace_symbols, { desc = 'Workspace [S]ymbols' })
+		vim.keymap.set('n', '<leader>d', t.diagnostics, { desc = '[D]iagnostics' })
+		vim.keymap.set('n', '<leader>H', t.help_tags, { desc = '[H]elp tags' })
 	end
 }
