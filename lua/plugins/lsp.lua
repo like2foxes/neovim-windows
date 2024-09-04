@@ -88,9 +88,10 @@ return {
 				end,
 				w_desc('Format buffer')
 			)
-			vim.keymap.set({ 'n' }, '<leader>.', '<cmd>Lspsaga code_action<cr>', w_desc('Code Action'))
+			vim.keymap.set({ 'n' }, '<leader>.', vim.lsp.buf.code_action, w_desc('Code Action'))
 			vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, w_desc('Rename'))
 
+			-- Workspaces
 			vim.keymap.set({ 'n' }, '<leader>wa', vim.lsp.buf.add_workspace_folder, { desc = '[A]dd workspace directory' })
 			vim.keymap.set({ 'n' }, '<leader>wr', vim.lsp.buf.remove_workspace_folder,
 				{ desc = '[R]emove workspace directory' })

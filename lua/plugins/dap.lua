@@ -4,10 +4,10 @@ return {
 		dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
 		version = "*",
 		keys = {
-			{ "<Leader>bc", function() require("dap").continue() end,          desc = "DAP: Continue execution" },
-			{ "<Leader>bb", function() require("dap").toggle_breakpoint() end, desc = "DAP: Add/remove breakpoint into the current line" },
-			{ "<Leader>bi", function() require("dap").step_into() end,         desc = "DAP: Step into" },
-			{ "<Leader>bo", function() require("dap").step_over() end,         desc = "DAP: Step over" },
+			{ "<Leader>dc", function() require("dap").continue() end,          desc = "DAP: Continue execution" },
+			{ "<Leader>db", function() require("dap").toggle_breakpoint() end, desc = "DAP: Add/remove breakpoint into the current line" },
+			{ "<Leader>di", function() require("dap").step_into() end,         desc = "DAP: Step into" },
+			{ "<Leader>do", function() require("dap").step_over() end,         desc = "DAP: Step over" },
 		},
 		config = function()
 			local dap = require("dap")

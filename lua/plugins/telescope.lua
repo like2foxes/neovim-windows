@@ -19,7 +19,7 @@ return {
 		vim.keymap.set('n', '<leader>G', t.grep_string, { desc = '[G]rep string' })
 		vim.keymap.set('n', '<leader>s', t.lsp_document_symbols, { desc = 'Document [S]ymbols' })
 		vim.keymap.set('n', '<leader>S', t.lsp_workspace_symbols, { desc = 'Workspace [S]ymbols' })
-		vim.keymap.set('n', '<leader>d', t.diagnostics, { desc = '[D]iagnostics' })
+		vim.keymap.set('n', '<leader>D', t.diagnostics, { desc = '[D]iagnostics' })
 		vim.keymap.set('n', '<leader>H', t.help_tags, { desc = '[H]elp tags' })
 	end
 }
