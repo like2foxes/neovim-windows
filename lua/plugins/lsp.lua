@@ -56,6 +56,8 @@ return {
 
 		lsp.jsonls.setup({})
 
+		lsp.gopls.setup({})
+
 		lsp_zero.on_attach(function(client, bufnr)
 			-- see :help lsp-zero-keybindings
 			-- to learn the available actions
