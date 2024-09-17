@@ -21,5 +21,6 @@ return {
 		vim.keymap.set('n', '<leader>S', t.lsp_workspace_symbols, { desc = 'Workspace [S]ymbols' })
 		vim.keymap.set('n', '<leader>D', t.diagnostics, { desc = '[D]iagnostics' })
 		vim.keymap.set('n', '<leader>H', t.help_tags, { desc = '[H]elp tags' })
+		vim.keymap.set('n', '<leader>R', t.lsp_references, { desc = '[R]eferences' })
 	end
 }
