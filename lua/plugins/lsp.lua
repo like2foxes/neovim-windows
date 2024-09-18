@@ -94,11 +94,22 @@ return {
 			vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, w_desc('Rename'))
 
 			-- Workspaces
-			vim.keymap.set({ 'n' }, '<leader>wa', vim.lsp.buf.add_workspace_folder, { desc = '[A]dd workspace directory' })
+			vim.keymap.set({ 'n' }, '<leader>wa', vim.lsp.buf.add_workspace_folder,
+				{ desc = '[A]dd workspace directory' })
 			vim.keymap.set({ 'n' }, '<leader>wr', vim.lsp.buf.remove_workspace_folder,
 				{ desc = '[R]emove workspace directory' })
 			vim.keymap.set({ 'n' }, '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
 				{ desc = '[L]ist workspace directory' })
+
+			vim.api.nvim_create_augroup("LspCommands", {})
+
+			local k = require("lua.utils")
+			vim.api.nvim_create_autocmd("TextChangedI", {
+				group = "LspCommands",
+				callback = function(args)
+
+				end,
+			})
 		end)
 	end
 }
