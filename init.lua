@@ -47,9 +47,7 @@ vim.opt.cursorline = true
 
 -- grep using rg
 vim.opt.grepprg = "rg --vimgrep"
-
 vim.opt.signcolumn = 'yes'
-
 vim.opt.autoread = true
 
 -- scrolloff
@@ -84,3 +82,4 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup('plugins')
+

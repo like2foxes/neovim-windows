@@ -55,14 +55,33 @@ return {
 
 		lsp.fsautocomplete.setup({})
 
+		lsp.html.setup({})
+
+		lsp.cssls.setup({})
+
 		vim.api.nvim_create_autocmd("LspAttach", {
 			callback = function(args)
 				local bufnr = args.buf
 				local client = vim.lsp.get_client_by_id(args.data.client_id)
-				if client.server_capabilities.completionProvider then
+				if client and client.server_capabilities.completionProvider then
+					local cap = require('capitalize')
+					local cu = require('capitalize_utils')
+					vim.keymap.set("n", '<leader>c', cap.change_capitalization_base_on_lsp, { desc = "[C]apitalize" })
 					vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+					vim.api.nvim_create_augroup("Capitalize", { clear = true })
+					vim.api.nvim_create_autocmd({ "TextChangedI" }, {
+						pattern = "*",
+						callback = function()
+							local line = vim.api.nvim_get_current_line()
+							local _, col = unpack(vim.api.nvim_win_get_cursor(0))
+							if col > 2 and not cu.is_alpha_or_underscore(line:sub(col,col)) then
+								cap.change_capitalization_base_on_lsp()
+							end
+						end,
+						group = "Capitalize"
+					})
 				end
-				if client.server_capabilities.definitionProvider then
+				if client and client.server_capabilities.definitionProvider then
 					vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
 				end
 

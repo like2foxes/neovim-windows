@@ -79,12 +79,6 @@ return {
 			vim.keymap.set({ 'n', 'v' }, '[A', function() to.goto_previous_start('@assignment.inner') end,
 				{ desc = 'Previous assignment inner' })
 
-			local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
-
-			-- vim way: ; goes to the direction you were moving.
-			vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
-			vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
-
 			-- go to context
 			vim.keymap.set({ 'v', 'c' }, 'gc', function() require('treesitter-context').go_to_context(vim.v.count1) end,
 				{ desc = 'Go to Context' })
@@ -99,6 +93,7 @@ return {
 	},
 	{
 		'nvim-treesitter/nvim-treesitter-context',
+		lazy = true,
 		dependencies = {
 			'nvim-treesitter/nvim-treesitter'
 		}

@@ -2,7 +2,7 @@ return {
 	'nvim-telescope/telescope.nvim',
 	dependencies = { 'nvim-lua/plenary.nvim' },
 	config = function()
-		local t = require('telescope.builtin');
+		local t = require('telescope.builtin')
 		local find_git_files_or_all = function()
 			local ok, _ = pcall(t.git_files)
 			if not ok then
