@@ -70,7 +70,7 @@ return {
 					vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 					vim.api.nvim_create_augroup("Capitalize", { clear = true })
 					vim.api.nvim_create_autocmd({ "TextChangedI" }, {
-						pattern = "*",
+						pattern = "*.cs",
 						callback = function()
 							local line = vim.api.nvim_get_current_line()
 							local _, col = unpack(vim.api.nvim_win_get_cursor(0))
