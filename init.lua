@@ -64,6 +64,15 @@ vim.opt.termguicolors = true
 
 vim.cmd.colorscheme('habamax')
 
+if vim.fn.has("win64") == 1 then
+	vim.opt.shell = "pwsh"
+	vim.opt.shellxquote = ""
+	vim.opt.shellquote = ""
+	vim.opt.shellcmdflag ="-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new();$PSDefaultParameterValues['Out-File:Encoding']='utf8';Remove-Alias -Force -ErrorAction SilentlyContinue tee;"
+	vim.opt.shellredir = '2>&1 | %%{ "$_" } | Out-File %s; exit $LastExitCode'
+	vim.opt.shellpipe  = '2>&1 | %%{ "$_" } | tee %s; exit $LastExitCode'
+end
+
 vim.g.netrw_banner = 0
 vim.g.netrw_browse_split = 4
 vim.g.netrw_altv = 1
@@ -84,4 +93,3 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup('plugins')
-
