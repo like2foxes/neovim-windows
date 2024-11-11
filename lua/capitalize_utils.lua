@@ -4,7 +4,10 @@ local M = {}
 --- @return string[] List of lsp completion suggestions labels
 M.get_cmp_labels = function()
 	local params = vim.lsp.util.make_position_params()
-	local result = vim.lsp.buf_request_sync(0, 'textDocument/completion', params, 200)
+	local ok, result = pcall(vim.lsp.buf_request_sync, 0, 'textDocument/completion', params, 200)
+	if not ok then
+		return {}
+	end
 	local labels = {}
 	if result then
 		for _, res in pairs(result) do
