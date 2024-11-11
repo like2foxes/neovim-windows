@@ -1,9 +1,13 @@
 return {
 	{
 		'nvim-treesitter/nvim-treesitter',
+		lazy = true,
 		config = function()
+			vim.filetype.add({
+				pattern = { [".*%.blade%.php"] = "blade" }
+			})
 			require 'nvim-treesitter.configs'.setup({
-				ensure_installed = {},
+				ensure_installed = { "blade", "php_only" },
 				build = ':TSUpdate',
 				sync_install = false,
 				auto_install = true,
@@ -37,6 +41,16 @@ return {
 				}
 			})
 
+			--@class
+			local parser_config = require 'nvim-treesitter.parsers'.get_parser_configs()
+			parser_config.blade = {
+				install_info = {
+					url = "https://github.com/EmranMR/tree-sitter-blade",
+					files = { "src/parser.c" },
+					branch = "main",
+				},
+				filetype = "blade",
+			}
 			local selection = require('nvim-treesitter.incremental_selection')
 			local to = require('nvim-treesitter.textobjects.move')
 
@@ -93,13 +107,13 @@ return {
 	},
 	{
 		'nvim-treesitter/nvim-treesitter-context',
-		lazy = true,
 		dependencies = {
 			'nvim-treesitter/nvim-treesitter'
 		}
 	},
 	{
 		'nvim-treesitter/nvim-treesitter-textobjects',
+		lazy = true,
 		dependencies = {
 			'nvim-treesitter/nvim-treesitter'
 		},

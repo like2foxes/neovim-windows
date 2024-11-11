@@ -33,6 +33,7 @@ return {
 			}
 		})
 
+		lsp.pyright.setup({})
 		lsp.omnisharp.setup {
 			cmd = { "OmniSharp.exe" },
 			handlers = {
@@ -43,9 +44,7 @@ return {
 			},
 		}
 
-		lsp.clangd.setup({
-
-		})
+		lsp.clangd.setup({})
 
 		lsp.ts_ls.setup({})
 
@@ -58,7 +57,7 @@ return {
 		lsp.html.setup({})
 
 		lsp.cssls.setup({})
-
+		lsp.intelephense.setup{}
 		vim.api.nvim_create_autocmd("LspAttach", {
 			callback = function(args)
 				local bufnr = args.buf
