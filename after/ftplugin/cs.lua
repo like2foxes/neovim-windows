@@ -20,7 +20,7 @@ local enter_code = vim.api.nvim_replace_termcodes("<CR>", false, false, true)
 vim.api.nvim_create_user_command("Watch",
 	function(args)
 		local watched = proj
-		if args ~= nil and args['args'] then
+		if args ~= nil and args['args'] and string.len(args['args']) > 0 then
 			print('hello '..args['args'])
 			watched = args['args']
 		end
