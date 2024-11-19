@@ -85,7 +85,7 @@ M.change_capitalization_of_word_under_cursor_from_options = function(options)
 		if option == word then
 			return
 		end
-		if string.lower(option) == string.lower(word) then
+		if string.lower(option) == string.lower(word) and string.lower(option) ~= option then
 			candidate = option
 		end
 	end
