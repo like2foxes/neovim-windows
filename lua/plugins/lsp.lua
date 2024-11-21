@@ -2,7 +2,8 @@ return {
 	'neovim/nvim-lspconfig',
 	branch = 'v3.x',
 	dependencies = {
-		{ 'Hoffs/omnisharp-extended-lsp.nvim' }
+		{ 'Hoffs/omnisharp-extended-lsp.nvim' },
+		{ 'Decodetalkers/csharpls-extended-lsp.nvim' }
 	},
 
 	config = function()
@@ -34,6 +35,14 @@ return {
 		})
 
 		lsp.pyright.setup({})
+		lsp.csharp_ls.setup({
+			handlers = {
+				["textDocument/definition"] = require('csharpls_extended').handler,
+				["textDocument/typeDefinition"] = require('csharpls_extended').handler,
+			},
+			cmd = { 'csharp-ls.exe' },
+		})
+		--[[
 		lsp.omnisharp.setup {
 			cmd = { "OmniSharp.exe" },
 			handlers = {
@@ -43,6 +52,8 @@ return {
 				["textDocument/implementation"] = require('omnisharp_extended').implementation_handler,
 			},
 		}
+		]]
+		--
 
 		lsp.clangd.setup({})
 
@@ -57,7 +68,7 @@ return {
 		lsp.html.setup({})
 
 		lsp.cssls.setup({})
-		lsp.intelephense.setup{}
+		lsp.intelephense.setup {}
 		vim.api.nvim_create_autocmd("LspAttach", {
 			callback = function(args)
 				local bufnr = args.buf
@@ -73,7 +84,7 @@ return {
 						callback = function()
 							local line = vim.api.nvim_get_current_line()
 							local _, col = unpack(vim.api.nvim_win_get_cursor(0))
-							if col > 2 and not cu.is_alpha_or_underscore(line:sub(col,col)) then
+							if col > 2 and not cu.is_alpha_or_underscore(line:sub(col, col)) then
 								cap.change_capitalization_base_on_lsp()
 							end
 						end,
