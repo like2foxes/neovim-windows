@@ -23,10 +23,20 @@ vim.api.nvim_create_user_command("Watch",
 	function(args)
 		local watched = proj
 		if args ~= nil and args['args'] and string.len(args['args']) > 0 then
-			print('hello '..args['args'])
 			watched = args['args']
 		end
 		local win = vim.api.nvim_get_current_win()
 		u.terminal_send_cmd("dotnet watch run --project " .. watched .. enter_code)
+		vim.api.nvim_set_current_win(win)
+	end, { bang = true, nargs = "?" })
+
+vim.api.nvim_create_user_command("Test",
+	function(args)
+		local watched = proj
+		if args ~= nil and args['args'] and string.len(args['args']) > 0 then
+			watched = args['args']
+		end
+		local win = vim.api.nvim_get_current_win()
+		u.terminal_send_cmd("dotnet watch test --project " .. watched .. enter_code)
 		vim.api.nvim_set_current_win(win)
 	end, { bang = true, nargs = "?" })
