@@ -1,7 +1,6 @@
 -- leader
-vim.g.mapleader = ' '
-vim.opt.timeout = true
-vim.opt.timeoutlen = 200
+vim.keymap.set("n", '<Space>', '<NOP>')
+vim.g.mapleader = " "
 
 -- remove highlight
 vim.keymap.set('n', '<esc>', '<cmd>noh<cr>')
