@@ -76,15 +76,12 @@ M.change_capitalization_of_word_under_cursor_from_options = function(options)
 
 	local si, ei = M.word_on_col_indices(line, col + 1)
 	local word = line:sub(si, ei)
-	if string.lower(word) == word then
+	if string.lower(word) ~= word then
 		return
 	end
 
 	local candidate = ''
 	for _, option in pairs(options) do
-		if option == word then
-			return
-		end
 		if string.lower(option) == string.lower(word) and string.lower(option) ~= option then
 			candidate = option
 		end
