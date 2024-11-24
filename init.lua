@@ -6,6 +6,10 @@ vim.opt.timeoutlen = 200
 -- remove highlight
 vim.keymap.set('n', '<esc>', '<cmd>noh<cr>')
 
+-- quickfix
+vim.keymap.set({ 'n', 'v' }, ']q', '<cmd>cnext<cr>', { desc = 'Next [Q]list Item' })
+vim.keymap.set({ 'n', 'v' }, '[q', '<cmd>cprevious<cr>', { desc = 'Previous [Q]list Item' })
+
 -- line numbers
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -65,12 +69,13 @@ vim.opt.termguicolors = true
 vim.cmd.colorscheme('habamax')
 
 if vim.fn.has("win64") == 1 then
-	vim.opt.shell = "pwsh"
-	vim.opt.shellxquote = ""
-	vim.opt.shellquote = ""
-	vim.opt.shellcmdflag ="-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new();$PSDefaultParameterValues['Out-File:Encoding']='utf8';Remove-Alias -Force -ErrorAction SilentlyContinue tee;"
-	vim.opt.shellredir = '2>&1 | %%{ "$_" } | Out-File %s; exit $LastExitCode'
-	vim.opt.shellpipe  = '2>&1 | %%{ "$_" } | tee %s; exit $LastExitCode'
+	vim.opt.shell        = "pwsh"
+	vim.opt.shellxquote  = ""
+	vim.opt.shellquote   = ""
+	vim.opt.shellcmdflag =
+	"-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new();$PSDefaultParameterValues['Out-File:Encoding']='utf8';Remove-Alias -Force -ErrorAction SilentlyContinue tee;"
+	vim.opt.shellredir   = '2>&1 | %%{ "$_" } | Out-File %s; exit $LastExitCode'
+	vim.opt.shellpipe    = '2>&1 | %%{ "$_" } | tee %s; exit $LastExitCode'
 end
 
 vim.g.netrw_banner = 0

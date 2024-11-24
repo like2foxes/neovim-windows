@@ -54,9 +54,6 @@ return {
 			local selection = require('nvim-treesitter.incremental_selection')
 			local to = require('nvim-treesitter.textobjects.move')
 
-			vim.keymap.set({ 'n', 'v' }, ']q', '<cmd>cnext<cr>', { desc = 'Next [Q]list Item' })
-			vim.keymap.set({ 'n', 'v' }, '[q', '<cmd>cprevious<cr>', { desc = 'Previous [Q]list Item' })
-
 			vim.keymap.set({ 'n', 'v' }, ']f', function() to.goto_next('@function.outer') end,
 				{ desc = 'Next function outer' })
 			vim.keymap.set({ 'n', 'v' }, ']F', function() to.goto_next('@function.inner') end,
@@ -107,6 +104,7 @@ return {
 	},
 	{
 		'nvim-treesitter/nvim-treesitter-context',
+		lazy = true,
 		dependencies = {
 			'nvim-treesitter/nvim-treesitter'
 		}
