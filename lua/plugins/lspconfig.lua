@@ -1,15 +1,13 @@
 return {
 	'neovim/nvim-lspconfig',
-	branch = 'v3.x',
 	dependencies = {
-		{ 'Hoffs/omnisharp-extended-lsp.nvim' },
-		--		{ 'Decodetalkers/csharpls-extended-lsp.nvim' }
+		"hrsh7th/cmp-nvim-lsp",
 	},
-
 	config = function()
 		local lsp = require('lspconfig')
-
+		local capabilities = require('cmp_nvim_lsp').default_capabilities()
 		lsp.lua_ls.setup({
+			capabilities = capabilities,
 			on_init = function(client)
 				local path = client.workspace_folders[1].name
 				if vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc') then
@@ -34,20 +32,20 @@ return {
 			}
 		})
 
-		lsp.pyright.setup({})
-		lsp.clangd.setup({})
+		lsp.pyright.setup({ capabilities = capabilities })
+		lsp.clangd.setup({ capabilities = capabilities })
 
-		lsp.ts_ls.setup({})
+		lsp.ts_ls.setup({ capabilities = capabilities })
 
-		lsp.jsonls.setup({})
+		lsp.jsonls.setup({ capabilities = capabilities })
 
-		lsp.gopls.setup({})
+		lsp.gopls.setup({ capabilities = capabilities })
 
-		lsp.fsautocomplete.setup({})
+		lsp.fsautocomplete.setup({ capabilities = capabilities })
 
-		lsp.html.setup({})
+		lsp.html.setup({ capabilities = capabilities })
 
-		lsp.cssls.setup({})
+		lsp.cssls.setup({ capabilities = capabilities })
 		lsp.intelephense.setup {}
 		vim.api.nvim_create_autocmd("LspAttach", {
 			callback = function(args)
@@ -59,17 +57,17 @@ return {
 					vim.keymap.set("n", '<leader>c', cap.change_capitalization_base_on_lsp, { desc = "[C]apitalize" })
 					vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 					vim.api.nvim_create_augroup("Capitalize", { clear = true })
-					vim.api.nvim_create_autocmd({ "TextChangedI" }, {
-						pattern = "*.cs",
-						callback = function()
-							local line = vim.api.nvim_get_current_line()
-							local _, col = unpack(vim.api.nvim_win_get_cursor(0))
-							if col > 2 and not cu.is_alpha_or_underscore(line:sub(col, col)) then
-								cap.change_capitalization_base_on_lsp()
-							end
-						end,
-						group = "Capitalize"
-					})
+					-- vim.api.nvim_create_autocmd({ "TextChangedI" }, {
+					-- 	pattern = "*.cs",
+					-- 	callback = function()
+					-- 		local line = vim.api.nvim_get_current_line()
+					-- 		local _, col = unpack(vim.api.nvim_win_get_cursor(0))
+					-- 		if col > 2 and not cu.is_alpha_or_underscore(line:sub(col, col)) then
+					-- 			cap.change_capitalization_base_on_lsp()
+					-- 		end
+					-- 	end,
+					-- 	group = "Capitalize"
+					-- })
 				end
 				if client and client.server_capabilities.definitionProvider then
 					vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
@@ -118,7 +116,6 @@ return {
 					vim.keymap.set({ 'n' }, '<leader>wl',
 						function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
 						{ desc = '[L]ist workspace directory' })
-
 				end
 				on_lsp_attach(client, bufnr)
 			end,

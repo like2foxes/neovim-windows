@@ -1,7 +1,6 @@
 return {
 	{
 		'nvim-treesitter/nvim-treesitter',
-		lazy = true,
 		config = function()
 			vim.filetype.add({
 				pattern = { [".*%.blade%.php"] = "blade" }
@@ -104,14 +103,12 @@ return {
 	},
 	{
 		'nvim-treesitter/nvim-treesitter-context',
-		lazy = true,
 		dependencies = {
 			'nvim-treesitter/nvim-treesitter'
 		}
 	},
 	{
 		'nvim-treesitter/nvim-treesitter-textobjects',
-		lazy = true,
 		dependencies = {
 			'nvim-treesitter/nvim-treesitter'
 		},
