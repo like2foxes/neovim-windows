@@ -65,7 +65,6 @@ vim.opt.inccommand = 'split'
 
 vim.opt.termguicolors = true
 
-vim.cmd.colorscheme('habamax')
 
 if vim.fn.has("win64") == 1 then
 	vim.opt.shell        = "pwsh"
@@ -97,3 +96,4 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup('plugins')
+vim.cmd.colorscheme('kanagawa')
