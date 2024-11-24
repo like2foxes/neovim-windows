@@ -33,17 +33,17 @@ return {
 			end
 		end
 
-		vim.keymap.set('n', '<leader>T', ':Telescope ', { desc = '[T]elescope' })
-		vim.keymap.set('n', '<leader> ', t.buffers, { desc = 'Buffers' })
-		vim.keymap.set('n', '<leader>/', t.current_buffer_fuzzy_find, { desc = 'Search Buffer' })
-		vim.keymap.set('n', '<leader>f', find_git_files_or_all, { desc = '[F]iles' })
-		vim.keymap.set('n', '<leader>F', t.find_files, { desc = 'All [F]iles' })
-		vim.keymap.set('n', '<leader>g', t.live_grep, { desc = 'Live [G]rep' })
-		vim.keymap.set('n', '<leader>G', t.grep_string, { desc = '[G]rep string' })
-		vim.keymap.set('n', '<leader>s', t.lsp_document_symbols, { desc = 'Document [S]ymbols' })
-		vim.keymap.set('n', '<leader>S', t.lsp_workspace_symbols, { desc = 'Workspace [S]ymbols' })
-		vim.keymap.set('n', '<leader>D', t.diagnostics, { desc = '[D]iagnostics' })
-		vim.keymap.set('n', '<leader>H', t.help_tags, { desc = '[H]elp tags' })
-		vim.keymap.set('n', '<leader>R', t.lsp_references, { desc = '[R]eferences' })
+		vim.keymap.set('n', '<Leader>T', ':Telescope ', { desc = '[T]elescope' })
+		vim.keymap.set('n', '<Leader> ', t.buffers, { desc = 'Buffers' })
+		vim.keymap.set('n', '<Leader>/', t.current_buffer_fuzzy_find, { desc = 'Search Buffer' })
+		vim.keymap.set('n', '<Leader>f', find_git_files_or_all, { desc = '[F]iles' })
+		vim.keymap.set('n', '<Leader>F', t.find_files, { desc = 'All [F]iles' })
+		vim.keymap.set('n', '<Leader>g', t.live_grep, { desc = 'Live [G]rep' })
+		vim.keymap.set('n', '<Leader>G', t.grep_string, { desc = '[G]rep string' })
+		vim.keymap.set('n', '<Leader>s', t.lsp_document_symbols, { desc = 'Document [S]ymbols' })
+		vim.keymap.set('n', '<Leader>S', t.lsp_workspace_symbols, { desc = 'Workspace [S]ymbols' })
+		vim.keymap.set('n', '<Leader>D', t.diagnostics, { desc = '[D]iagnostics' })
+		vim.keymap.set('n', '<Leader>H', t.help_tags, { desc = '[H]elp tags' })
+		vim.keymap.set('n', '<Leader>R', t.lsp_references, { desc = '[R]eferences' })
 	end
 }
