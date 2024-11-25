@@ -120,17 +120,24 @@ return {
 				{ name = "buffer" },
 			}),
 			formatting = {
-				format = function(entry, vim_item)
-					if vim.tbl_contains({ 'path' }, entry.source.name) then
-						local icon, hl_group = require('nvim-web-devicons').get_icon(entry:get_completion_item().label)
-						if icon then
-							vim_item.kind = icon
-							vim_item.kind_hl_group = hl_group
-							return vim_item
-						end
+				format = require 'lspkind'.cmp_format({
+					mode = 'symbol', -- show only symbol annotations
+					maxwidth = {
+						-- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+						-- can also be a function to dynamically calculate max width such as
+						-- menu = function() return math.floor(0.45 * vim.o.columns) end,
+						menu = 50, -- leading text (labelDetails)
+						abbr = 50, -- actual suggestion item
+					},
+					ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+					show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+
+					-- The function below will be called before any actual modifications from lspkind
+					-- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+					before = function(entry, vim_item)
+						return vim_item
 					end
-					return require('lspkind').cmp_format({ with_text = false })(entry, vim_item)
-				end
+				})
 			},
 			experimental = {
 				-- only show ghost text when we show ai completions

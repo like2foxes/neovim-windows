@@ -6,7 +6,7 @@ return {
 				pattern = { [".*%.blade%.php"] = "blade" }
 			})
 			require 'nvim-treesitter.configs'.setup({
-				ensure_installed = { "blade", "php_only" },
+				ensure_installed = { "c_sharp", "lua", "javascript"},
 				build = ':TSUpdate',
 				sync_install = false,
 				auto_install = true,
