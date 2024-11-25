@@ -12,6 +12,7 @@ return {
 			"garymjr/nvim-snippets",
 			opts = {
 				friendly_snippets = true,
+				create_cmp_source = true,
 				keys = {
 					{
 						"<Tab>",
@@ -91,6 +92,24 @@ return {
 				["<C-CR>"] = function(fallback)
 					cmp.abort()
 					fallback()
+				end,
+				["<Tab>"] = function()
+					if vim.snippet.active({ direction = 1 }) then
+						vim.schedule(function()
+							vim.snippet.jump(1)
+						end)
+						return
+					end
+					return "<Tab>"
+				end,
+				["<S-Tab>"] = function()
+					if vim.snippet.active({ direction = -1 }) then
+						vim.schedule(function()
+							vim.snippet.jump(-1)
+						end)
+						return
+					end
+					return "<S-Tab>"
 				end,
 			}),
 			sources = cmp.config.sources({
