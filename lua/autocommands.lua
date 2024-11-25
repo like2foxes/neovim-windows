@@ -16,7 +16,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		if client and client.server_capabilities.definitionProvider then
 			vim.bo[bufnumber].tagfunc = "v:lua.vim.lsp.tagfunc"
 		end
-
 		local on_lsp_attach = function(_, bufnr)
 			-- see :help lsp-zero-keybindings
 			-- to learn the available actions

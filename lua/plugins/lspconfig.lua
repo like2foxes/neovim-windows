@@ -1,8 +1,6 @@
 return {
 	'neovim/nvim-lspconfig',
-	dependencies = {
-		"hrsh7th/cmp-nvim-lsp",
-	},
+	dependencies = { 'saghen/blink.cmp' },
 	opts = {
 		diagnostics = {
 			underline = true,
@@ -20,12 +18,29 @@ return {
 		inlay_hints = {
 			enabled = true
 		},
+		servers = {
+			pyright = {},
+			clangd = {},
+			ts_ls = {},
+			jsonls = {},
+			gopls = {},
+			fsautocomplete = {},
+			html = {},
+			cssls = {},
+			intelephense = {},
+
+		}
 	},
-	config = function()
-		local lsp = require('lspconfig')
-		local capabilities = require('cmp_nvim_lsp').default_capabilities()
-		lsp.lua_ls.setup({
-			capabilities = capabilities,
+	config = function(_, opts)
+		local lspconfig = require('lspconfig')
+		for server, config in pairs(opts.servers) do
+			-- passing config.capabilities to blink.cmp merges with the capabilities in your
+			-- `opts[server].capabilities, if you've defined it
+			config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
+			lspconfig[server].setup(config)
+		end
+		lspconfig.lua_ls.setup({
+			capabilities = require('blink.cmp').get_lsp_capabilities(),
 			on_init = function(client)
 				local path = client.workspace_folders[1].name
 				if vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc') then
@@ -49,21 +64,5 @@ return {
 				Lua = {}
 			}
 		})
-
-		lsp.pyright.setup({ capabilities = capabilities })
-		lsp.clangd.setup({ capabilities = capabilities })
-
-		lsp.ts_ls.setup({ capabilities = capabilities })
-
-		lsp.jsonls.setup({ capabilities = capabilities })
-
-		lsp.gopls.setup({ capabilities = capabilities })
-
-		lsp.fsautocomplete.setup({ capabilities = capabilities })
-
-		lsp.html.setup({ capabilities = capabilities })
-
-		lsp.cssls.setup({ capabilities = capabilities })
-		lsp.intelephense.setup {}
 	end
 }
