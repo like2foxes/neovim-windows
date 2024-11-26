@@ -41,6 +41,24 @@ return {
 					cmp.abort()
 					fallback()
 				end,
+				["<Tab>"] = function()
+					if vim.snippet.active({ direction = 1 }) then
+						vim.schedule(function()
+							vim.snippet.jump(1)
+						end)
+						return
+					end
+					return "<Tab>"
+				end,
+				["<S-Tab>"] = function()
+					if vim.snippet.active({ direction = -1 }) then
+						vim.schedule(function()
+							vim.snippet.jump(-1)
+						end)
+						return
+					end
+					return "<S-Tab>"
+				end,
 			}),
 			sources = cmp.config.sources({
 				{ name = "nvim_lsp" },
@@ -68,6 +86,9 @@ return {
 				} or false,
 			},
 			sorting = defaults.sorting,
+			snippet = {
+
+			}
 		}
 	end,
 }
