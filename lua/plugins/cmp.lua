@@ -37,10 +37,6 @@ return {
 				["<CR>"] = cmp.mapping.confirm({ select = true }),
 				["<C-y>"] = cmp.mapping.confirm({ select = false }),
 				["<S-CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-				["<C-CR>"] = function(fallback)
-					cmp.abort()
-					fallback()
-				end,
 				["<Tab>"] = function()
 					if vim.snippet.active({ direction = 1 }) then
 						vim.schedule(function()

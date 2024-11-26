@@ -1,3 +1,6 @@
+-- leader
+vim.keymap.set("n", '<Space>', '<NOP>')
+vim.g.mapleader = " "
 require('options')
 require('autocommands')
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

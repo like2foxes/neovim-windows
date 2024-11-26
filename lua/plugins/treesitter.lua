@@ -6,7 +6,7 @@ return {
 				pattern = { [".*%.blade%.php"] = "blade" }
 			})
 			require 'nvim-treesitter.configs'.setup({
-				ensure_installed = { "c_sharp", "lua", "javascript"},
+				ensure_installed = { "c_sharp", "lua", "javascript" },
 				build = ':TSUpdate',
 				sync_install = false,
 				auto_install = true,
@@ -41,15 +41,6 @@ return {
 			})
 
 			--@class
-			local parser_config = require 'nvim-treesitter.parsers'.get_parser_configs()
-			parser_config.blade = {
-				install_info = {
-					url = "https://github.com/EmranMR/tree-sitter-blade",
-					files = { "src/parser.c" },
-					branch = "main",
-				},
-				filetype = "blade",
-			}
 			local selection = require('nvim-treesitter.incremental_selection')
 			local to = require('nvim-treesitter.textobjects.move')
 
@@ -90,7 +81,8 @@ return {
 				{ desc = 'Previous assignment inner' })
 
 			-- go to context
-			vim.keymap.set({ 'v', 'c' }, 'gc', function() require('treesitter-context').go_to_context(vim.v.count1) end,
+			vim.keymap.set({ 'v', 'c', 'n' }, 'gt',
+				function() require('treesitter-context').go_to_context(vim.v.count1) end,
 				{ desc = 'Go to Context' })
 
 			-- selection
