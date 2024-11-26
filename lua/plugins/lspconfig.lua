@@ -50,6 +50,12 @@ return {
 			}
 		})
 
+		lsp.powershell_es.setup({
+			capabilities = capabilities,
+			cmd = { 'pwsh', '-NoLogo', '-NoProfile', '-Command', "C:/tools/PowerShellEditorServices/PowerShellEditorServices/Start-EditorServices.ps1" },
+			single_file_support = true,
+		})
+
 		lsp.pyright.setup({ capabilities = capabilities })
 		lsp.clangd.setup({ capabilities = capabilities })
 
