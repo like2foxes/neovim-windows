@@ -95,9 +95,4 @@ if vim.fn.has("win64") == 1 then
 	vim.opt.shellpipe    = '2>&1 | %%{ "$_" } | tee %s; exit $LastExitCode'
 end
 
-vim.g.netrw_banner = 0
-vim.g.netrw_browse_split = 4
-vim.g.netrw_altv = 1
-vim.g.netrw_liststyle = 3
-
 vim.opt.grepprg = 'rg --vimgrep'
