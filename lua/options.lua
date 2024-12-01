@@ -55,6 +55,7 @@ vim.opt.cursorline = true
 vim.opt.grepprg = "rg --vimgrep"
 vim.opt.signcolumn = 'yes'
 vim.opt.autoread = true
+vim.opt.autowriteall = true
 
 -- scrolloff
 vim.opt.scrolloff = 4
@@ -62,7 +63,7 @@ vim.opt.sidescrolloff = 8
 
 vim.opt.smartindent = true
 
-vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
+vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winpos", "winsize", "help", "globals", "skiprtp", "folds" }
 
 vim.opt.inccommand = 'split'
 
@@ -94,5 +95,3 @@ if vim.fn.has("win64") == 1 then
 	vim.opt.shellredir   = '2>&1 | %%{ "$_" } | Out-File %s; exit $LastExitCode'
 	vim.opt.shellpipe    = '2>&1 | %%{ "$_" } | tee %s; exit $LastExitCode'
 end
-
-vim.opt.grepprg = 'rg --vimgrep'

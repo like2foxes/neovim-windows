@@ -61,22 +61,22 @@ vim.keymap.set('n', '<Leader>g', t.live_grep, { desc = 'Live [G]rep' })
 vim.keymap.set('n', '<Leader>G', t.grep_string, { desc = '[G]rep string' })
 vim.keymap.set('n', '<Leader>S', t.lsp_document_symbols, { desc = 'Document [S]ymbols' })
 vim.keymap.set('n', '<Leader>D', t.diagnostics, { desc = '[D]iagnostics' })
-vim.keymap.set('n', '<Leader>H', t.help_tags, { desc = '[H]elp tags' })
+vim.keymap.set('n', '<Leader>h', t.help_tags, { desc = '[H]elp tags' })
 vim.keymap.set('n', '<Leader>R', t.lsp_references, { desc = '[R]eferences' })
 
 local o = require('oil')
 vim.keymap.set('n', '<Leader>e', o.toggle_float, { desc = 'Toggle Oil' })
 vim.keymap.set('n', '<Leader>E', function() o.toggle_float(vim.cmd.pwd()) end, { desc = 'Toggle Oil in pwd' })
 
-vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
+vim.keymap.set('i', '<C-L>', 'copilot#Accept("\\<CR>")', {
 	expr = true,
 	replace_keycodes = false
 })
+
 vim.g.copilot_no_tab_map = true
 vim.keymap.set('i', '<C-S>', '<Plug>(copilot-accept-word)')
-vim.keymap.set('i', '<C-X>', '<Plug>(copilot-accept-line)')
-vim.keymap.set('i', '<C-L>', '<Plug>(copilot-next)')
-vim.keymap.set('i', '<C-H>', '<Plug>(copilot-previous)')
+vim.keymap.set('i', '<C-Z>', '<Plug>(copilot-accept-line)')
+vim.keymap.set('i', '<C-]>', '<Plug>(copilot-next)')
 vim.keymap.set('i', '<C-D>', '<Plug>(copilot-dismiss)')
 
 vim.api.nvim_create_autocmd('ColorScheme', {

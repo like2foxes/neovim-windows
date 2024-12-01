@@ -16,14 +16,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		if client and client.server_capabilities.definitionProvider then
 			vim.bo[bufnumber].tagfunc = "v:lua.vim.lsp.tagfunc"
 		end
-		local on_lsp_attach = function(_, bufnr)
-			-- see :help lsp-zero-keybindings
-			-- to learn the available actions
-			--lsp_zero.default_keymaps({ buffer = bufnr })
+		local on_lsp_attach = function(client, bufnr)
 			local opts = { buffer = bufnr }
 			local w_desc = function(desc)
 				return { buffer = bufnr, desc = desc }
 			end
+			local wd = client.config.root_dir or vim.fn.getcwd()
+			vim.fn.chdir(wd)
 
 			vim.keymap.set('n', 'gd', vim.lsp.buf.definition, w_desc('[D]efinition'))
 			vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, w_desc('[I]mplementation'))

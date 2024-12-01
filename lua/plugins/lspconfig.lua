@@ -1,7 +1,8 @@
 return {
 	'neovim/nvim-lspconfig',
+	event = { "BufReadPre", "BufNewFile", "BufReadPost" },
 	dependencies = {
-		"hrsh7th/cmp-nvim-lsp",
+		--"hrsh7th/cmp-nvim-lsp",
 	},
 	opts = {
 		diagnostics = {
@@ -21,14 +22,15 @@ return {
 			enabled = true
 		},
 	},
-	config = function()
+	config = function(_, opts)
 		local lsp = require('lspconfig')
 		local capabilities = require('cmp_nvim_lsp').default_capabilities()
 		lsp.lua_ls.setup({
 			capabilities = capabilities,
+			single_file_support = true,
 			on_init = function(client)
 				local path = client.workspace_folders[1].name
-				if vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc') then
+				if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
 					return
 				end
 
@@ -52,7 +54,8 @@ return {
 
 		lsp.powershell_es.setup({
 			capabilities = capabilities,
-			cmd = { 'pwsh', '-NoLogo', '-NoProfile', '-Command', "C:/tools/PowerShellEditorServices/PowerShellEditorServices/Start-EditorServices.ps1" },
+			--cmd = { 'pwsh', '-NoLogo', '-NoProfile', '-Command', "C:/tools/PowerShellEditorServices/PowerShellEditorServices/Start-EditorServices.ps1" },
+			bundle_path = "C:/tools/PowerShellEditorServices/PowerShellEditorServices",
 			single_file_support = true,
 		})
 
@@ -71,5 +74,14 @@ return {
 
 		lsp.cssls.setup({ capabilities = capabilities })
 		lsp.intelephense.setup {}
+		if vim.fn.has("nvim-0.10.0") == 0 then
+			if type(opts.diagnostics.signs) ~= "boolean" then
+				for severity, icon in pairs(opts.diagnostics.signs.text) do
+					local name = vim.diagnostic.severity[severity]:lower():gsub("^%l", string.upper)
+					name = "DiagnosticSign" .. name
+					vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
+				end
+			end
+		end
 	end
 }
