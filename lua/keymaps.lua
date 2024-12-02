@@ -1,4 +1,3 @@
-
 vim.keymap.set('n', '<Space>%', '<cmd>w<cr><cmd>source %<cr>', { desc = "Source [%]" })
 -- remove highlight
 vim.keymap.set('n', '<esc>', '<cmd>noh<cr>')

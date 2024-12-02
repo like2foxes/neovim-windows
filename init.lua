@@ -18,8 +18,3 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup('plugins')
 vim.cmd.colorscheme('kanagawa')
 require('keymaps')
-
-require('foxession').setup({
-	auto_load = true,
-	auto_save = false
-})
