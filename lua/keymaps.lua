@@ -16,10 +16,13 @@ vim.keymap.set("v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<c
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)
-	local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+	local go = function(severity)
+		return next and vim.diagnostic.jump({ count = 1, severity = severity }) or
+		vim.diagnostic.jump({ count = -1, severity = severity })
+	end
 	severity = severity and vim.diagnostic.severity[severity] or nil
 	return function()
-		go({ severity = severity })
+		go(severity)
 	end
 end
 
