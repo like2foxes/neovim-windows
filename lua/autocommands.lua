@@ -10,12 +10,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		local bufnumber = args.buf
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
-		if client and client.server_capabilities.completionProvider then
-			vim.bo[bufnumber].omnifunc = "v:lua.vim.lsp.omnifunc"
-		end
-		if client and client.server_capabilities.definitionProvider then
-			vim.bo[bufnumber].tagfunc = "v:lua.vim.lsp.tagfunc"
-		end
 		local on_lsp_attach = function(client, bufnr)
 			local opts = { buffer = bufnr }
 			local w_desc = function(desc)
