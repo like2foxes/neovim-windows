@@ -52,15 +52,6 @@ return {
 			}
 		})
 
-		require 'lspconfig'.rust_analyzer.setup {
-			settings = {
-				['rust-analyzer'] = {
-					diagnostics = {
-						enable = false,
-					}
-				}
-			}
-		}
 		lsp.powershell_es.setup({
 			capabilities = capabilities,
 			--cmd = { 'pwsh', '-NoLogo', '-NoProfile', '-Command', "C:/tools/PowerShellEditorServices/PowerShellEditorServices/Start-EditorServices.ps1" },
