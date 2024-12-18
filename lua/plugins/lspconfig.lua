@@ -1,9 +1,6 @@
 return {
 	'neovim/nvim-lspconfig',
 	event = { "BufReadPre", "BufNewFile", "BufReadPost" },
-	dependencies = {
-		--"hrsh7th/cmp-nvim-lsp",
-	},
 	opts = {
 		diagnostics = {
 			underline = true,
@@ -24,9 +21,7 @@ return {
 	},
 	config = function(_, opts)
 		local lsp = require('lspconfig')
-		local capabilities = require('cmp_nvim_lsp').default_capabilities()
 		lsp.lua_ls.setup({
-			capabilities = capabilities,
 			single_file_support = true,
 			on_init = function(client)
 				local path = client.workspace_folders[1].name
@@ -53,34 +48,30 @@ return {
 		})
 
 		lsp.powershell_es.setup({
-			capabilities = capabilities,
 			--cmd = { 'pwsh', '-NoLogo', '-NoProfile', '-Command', "C:/tools/PowerShellEditorServices/PowerShellEditorServices/Start-EditorServices.ps1" },
 			bundle_path = "C:/tools/PowerShellEditorServices/PowerShellEditorServices",
 			single_file_support = true,
 		})
 
-		lsp.pyright.setup({ capabilities = capabilities })
-		lsp.clangd.setup({ capabilities = capabilities })
+		lsp.pyright.setup({})
+		lsp.clangd.setup({})
 
-		lsp.ts_ls.setup({ capabilities = capabilities })
+		lsp.ts_ls.setup({})
 
-		lsp.jsonls.setup({ capabilities = capabilities })
+		lsp.jsonls.setup({})
 
-		lsp.gopls.setup({ capabilities = capabilities })
+		lsp.gopls.setup({})
 
-		lsp.fsautocomplete.setup({ capabilities = capabilities })
+		lsp.fsautocomplete.setup({})
 
-		lsp.html.setup({ capabilities = capabilities })
+		lsp.html.setup({})
 
-		lsp.cssls.setup({ capabilities = capabilities })
+		lsp.cssls.setup({})
 		lsp.intelephense.setup {}
-		if vim.fn.has("nvim-0.10.0") == 0 then
-			if type(opts.diagnostics.signs) ~= "boolean" then
-				for severity, icon in pairs(opts.diagnostics.signs.text) do
-					local name = vim.diagnostic.severity[severity]:lower():gsub("^%l", string.upper)
-					name = "DiagnosticSign" .. name
-					vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
-				end
+		if vim.fn.hostname() == "DT-DOTNET-10" then
+			local capabilities = require('cmp_nvim_lsp').default_capabilities()
+			for _, server in pairs(lsp) do
+				server.capabilities = capabilities
 			end
 		end
 	end
