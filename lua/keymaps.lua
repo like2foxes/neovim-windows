@@ -2,6 +2,8 @@ vim.keymap.set('n', '<Space>%', '<cmd>w<cr><cmd>source %<cr>', { desc = "Source 
 -- remove highlight
 vim.keymap.set('n', '<esc>', '<cmd>noh<cr>')
 
+vim.keymap.set('t', '<esc>', '<C-\\><C-N>')
+
 -- quickfix
 vim.keymap.set('n', '<leader>qq', '<cmd>copen<cr>', { desc = "Open [Q]uicklist" })
 vim.keymap.set({ 'n', 'v' }, ']q', '<cmd>cnext<cr>', { desc = 'Next [Q]list Item' })
