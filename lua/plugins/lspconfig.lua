@@ -21,7 +21,14 @@ return {
 	},
 	config = function(_, opts)
 		local lsp = require('lspconfig')
+		local capabilities = {}
+		if vim.fn.hostname() == "DT-DOTNET-10" then
+			capabilities = require('cmp_nvim_lsp').default_capabilities()
+		else
+			capabilities = require('blink.cmp').get_lsp_capabilities()
+		end
 		lsp.lua_ls.setup({
+			capabilities = capabilities,
 			single_file_support = true,
 			on_init = function(client)
 				local path = client.workspace_folders[1].name
@@ -53,26 +60,20 @@ return {
 			single_file_support = true,
 		})
 
-		lsp.pyright.setup({})
-		lsp.clangd.setup({})
+		lsp.pyright.setup({ capabilities = capabilities })
+		lsp.clangd.setup({ capabilities = capabilities })
 
-		lsp.ts_ls.setup({})
+		lsp.ts_ls.setup({ capabilities = capabilities })
 
-		lsp.jsonls.setup({})
+		lsp.jsonls.setup({ capabilities = capabilities })
 
-		lsp.gopls.setup({})
+		lsp.gopls.setup({ capabilities = capabilities })
 
-		lsp.fsautocomplete.setup({})
+		lsp.fsautocomplete.setup({ capabilities = capabilities })
 
-		lsp.html.setup({})
+		lsp.html.setup({ capabilities = capabilities })
 
-		lsp.cssls.setup({})
-		lsp.intelephense.setup {}
-		if vim.fn.hostname() == "DT-DOTNET-10" then
-			local capabilities = require('cmp_nvim_lsp').default_capabilities()
-			for _, server in pairs(lsp) do
-				server.capabilities = capabilities
-			end
-		end
+		lsp.cssls.setup({ capabilities = capabilities })
+		lsp.intelephense.setup { capabilities = capabilities }
 	end
 }
