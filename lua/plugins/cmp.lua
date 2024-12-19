@@ -148,9 +148,23 @@ else
 	return {
 		'saghen/blink.cmp',
 		lazy = false, -- lazy loading handled internally
-		dependencies = 'rafamadriz/friendly-snippets',
+		dependencies = {
+			"rafamadriz/friendly-snippets",
+			-- add blink.compat to dependencies
+			{
+				"saghen/blink.compat",
+				optional = true, -- make optional so it's only enabled if any extras need it
+				opts = {},
+				version = not vim.g.lazyvim_blink_main and "*",
+			},
+		},
+		event = "InsertEnter",
 		version = 'v0.*',
-
+		opts_extend = {
+			"sources.completion.enabled_providers",
+			"sources.compat",
+			"sources.default",
+		},
 		---@module 'blink.cmp'
 		---@type blink.cmp.Config
 		opts = {
@@ -162,14 +176,84 @@ else
 
 			sources = {
 				default = { 'lsp', 'path', 'snippets', 'buffer' },
-				-- optionally disable cmdline completions
-				-- cmdline = {},
+				cmdline = function()
+					local type = vim.fn.getcmdtype()
+					-- Search forward and backward
+					if type == '/' or type == '?' then return { 'buffer' } end
+					-- Commands
+					if type == ':' then return { 'cmdline' } end
+					return {}
+				end,
 			},
 
-			signature = { enabled = true }
+			signature = { enabled = true },
+			completion = {
+				accept = {
+					-- experimental auto-brackets support
+					auto_brackets = {
+						enabled = true,
+					},
+				},
+				menu = {
+					draw = {
+						treesitter = { "lsp" },
+					},
+				},
+				documentation = {
+					auto_show = true,
+					auto_show_delay_ms = 200,
+				},
+				ghost_text = {
+					enabled = true
+				},
+			},
 		},
-		-- allows extending the providers array elsewhere in your config
-		-- without having to redefine it
-		opts_extend = { "sources.default" }
+		config = function(_, opts)
+			local enabled = opts.sources.default
+			for _, source in ipairs(opts.sources.compat or {}) do
+				opts.sources.providers[source] = vim.tbl_deep_extend(
+					"force",
+					{ name = source, module = "blink.compat.source" },
+					opts.sources.providers[source] or {}
+				)
+				if type(enabled) == "table" and not vim.tbl_contains(enabled, source) then
+					table.insert(enabled, source)
+				end
+			end
+			opts.sources.completion = opts.sources.completion or {}
+			opts.sources.completion.enabled_providers = enabled
+			if vim.tbl_get(opts, "completion", "menu", "draw", "treesitter") then
+				---@diagnostic disable-next-line: assign-type-mismatch
+				opts.completion.menu.draw.treesitter = true
+			end
+			for _, provider in pairs(opts.sources.providers or {}) do
+				---@cast provider blink.cmp.SourceProviderConfig|{kind?:string}
+				if provider.kind then
+					local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
+					local kind_idx = #CompletionItemKind + 1
+
+					CompletionItemKind[kind_idx] = provider.kind
+					---@diagnostic disable-next-line: no-unknown
+					CompletionItemKind[provider.kind] = kind_idx
+
+					---@type fun(ctx: blink.cmp.Context, items: blink.cmp.CompletionItem[]): blink.cmp.CompletionItem[]
+					local transform_items = provider.transform_items
+					---@param ctx blink.cmp.Context
+					---@param items blink.cmp.CompletionItem[]
+					provider.transform_items = function(ctx, items)
+						items = transform_items and transform_items(ctx, items) or items
+						for _, item in ipairs(items) do
+							item.kind = kind_idx or item.kind
+						end
+						return items
+					end
+
+					-- Unset custom prop to pass blink.cmp validation
+					provider.kind = nil
+				end
+			end
+
+			require("blink.cmp").setup(opts)
+		end
 	}
 end

@@ -1,5 +1,7 @@
 return {
 	'echasnovski/mini.surround',
 	version = false,
-	opts = {}
+	opts = {
+		n_lines = 150
+	}
 }
