@@ -9,7 +9,6 @@ return {
 		indent = { enabled = true },
 		notifier = { enabled = true },
 		statuscolumn = { enabled = true },
-		scroll = { enabled = true },
 		lazygit = { enabled = true },
 		terminal = {
 			enabled = true,

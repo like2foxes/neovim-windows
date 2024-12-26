@@ -13,49 +13,6 @@ if vim.fn.hostname() == "DT-DOTNET-10" then
 		},
 
 		config = function()
-			vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
-			-- Customization for Pmenu
-			vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#282C34", fg = "NONE" })
-			vim.api.nvim_set_hl(0, "Pmenu", { fg = "#C5CDD9", bg = "#22252A" })
-
-			vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { fg = "#7E8294", bg = "NONE", strikethrough = true })
-			vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { fg = "#82AAFF", bg = "NONE", bold = true })
-			vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = "#82AAFF", bg = "NONE", bold = true })
-			vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = "#C792EA", bg = "NONE", italic = true })
-
-			vim.api.nvim_set_hl(0, "CmpItemKindField", { fg = "#EED8DA", bg = "#B5585F" })
-			vim.api.nvim_set_hl(0, "CmpItemKindProperty", { fg = "#EED8DA", bg = "#B5585F" })
-			vim.api.nvim_set_hl(0, "CmpItemKindEvent", { fg = "#EED8DA", bg = "#B5585F" })
-
-			vim.api.nvim_set_hl(0, "CmpItemKindText", { fg = "#C3E88D", bg = "#9FBD73" })
-			vim.api.nvim_set_hl(0, "CmpItemKindEnum", { fg = "#C3E88D", bg = "#9FBD73" })
-			vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { fg = "#C3E88D", bg = "#9FBD73" })
-
-			vim.api.nvim_set_hl(0, "CmpItemKindConstant", { fg = "#FFE082", bg = "#D4BB6C" })
-			vim.api.nvim_set_hl(0, "CmpItemKindConstructor", { fg = "#FFE082", bg = "#D4BB6C" })
-			vim.api.nvim_set_hl(0, "CmpItemKindReference", { fg = "#FFE082", bg = "#D4BB6C" })
-
-			vim.api.nvim_set_hl(0, "CmpItemKindFunction", { fg = "#EADFF0", bg = "#A377BF" })
-			vim.api.nvim_set_hl(0, "CmpItemKindStruct", { fg = "#EADFF0", bg = "#A377BF" })
-			vim.api.nvim_set_hl(0, "CmpItemKindClass", { fg = "#EADFF0", bg = "#A377BF" })
-			vim.api.nvim_set_hl(0, "CmpItemKindModule", { fg = "#EADFF0", bg = "#A377BF" })
-			vim.api.nvim_set_hl(0, "CmpItemKindOperator", { fg = "#EADFF0", bg = "#A377BF" })
-
-			vim.api.nvim_set_hl(0, "CmpItemKindVariable", { fg = "#C5CDD9", bg = "#7E8294" })
-			vim.api.nvim_set_hl(0, "CmpItemKindFile", { fg = "#C5CDD9", bg = "#7E8294" })
-
-			vim.api.nvim_set_hl(0, "CmpItemKindUnit", { fg = "#F5EBD9", bg = "#D4A959" })
-			vim.api.nvim_set_hl(0, "CmpItemKindSnippet", { fg = "#F5EBD9", bg = "#D4A959" })
-			vim.api.nvim_set_hl(0, "CmpItemKindFolder", { fg = "#F5EBD9", bg = "#D4A959" })
-
-			vim.api.nvim_set_hl(0, "CmpItemKindMethod", { fg = "#DDE5F5", bg = "#6C8ED4" })
-			vim.api.nvim_set_hl(0, "CmpItemKindValue", { fg = "#DDE5F5", bg = "#6C8ED4" })
-			vim.api.nvim_set_hl(0, "CmpItemKindEnumMember", { fg = "#DDE5F5", bg = "#6C8ED4" })
-
-			vim.api.nvim_set_hl(0, "CmpItemKindInterface", { fg = "#D8EEEB", bg = "#58B5A8" })
-			vim.api.nvim_set_hl(0, "CmpItemKindColor", { fg = "#D8EEEB", bg = "#58B5A8" })
-			vim.api.nvim_set_hl(0, "CmpItemKindTypeParameter", { fg = "#D8EEEB", bg = "#58B5A8" })
-
 			local cmp = require("cmp")
 			local defaults = require("cmp.config.default")()
 			local auto_select = false
@@ -146,8 +103,13 @@ if vim.fn.hostname() == "DT-DOTNET-10" then
 	}
 else
 	return {
-		'saghen/blink.cmp',
-		lazy = false, -- lazy loading handled internally
+		"saghen/blink.cmp",
+		version = "v0.*",
+		opts_extend = {
+			"sources.completion.enabled_providers",
+			"sources.compat",
+			"sources.default",
+		},
 		dependencies = {
 			"rafamadriz/friendly-snippets",
 			-- add blink.compat to dependencies
@@ -155,38 +117,23 @@ else
 				"saghen/blink.compat",
 				optional = true, -- make optional so it's only enabled if any extras need it
 				opts = {},
-				version = not vim.g.lazyvim_blink_main and "*",
+				version = "v0.*",
 			},
 		},
 		event = "InsertEnter",
-		version = 'v0.*',
-		opts_extend = {
-			"sources.completion.enabled_providers",
-			"sources.compat",
-			"sources.default",
-		},
+
 		---@module 'blink.cmp'
 		---@type blink.cmp.Config
 		opts = {
-			keymap = { preset = 'default' },
 			appearance = {
-				use_nvim_cmp_as_default = true,
-				nerd_font_variant = 'mono'
+				-- sets the fallback highlight groups to nvim-cmp's highlight groups
+				-- useful for when your theme doesn't support blink.cmp
+				-- will be removed in a future release, assuming themes add support
+				use_nvim_cmp_as_default = false,
+				-- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+				-- adjusts spacing to ensure icons are aligned
+				nerd_font_variant = "mono",
 			},
-
-			sources = {
-				default = { 'lsp', 'path', 'snippets', 'buffer' },
-				cmdline = function()
-					local type = vim.fn.getcmdtype()
-					-- Search forward and backward
-					if type == '/' or type == '?' then return { 'buffer' } end
-					-- Commands
-					if type == ':' then return { 'cmdline' } end
-					return {}
-				end,
-			},
-
-			signature = { enabled = true },
 			completion = {
 				accept = {
 					-- experimental auto-brackets support
@@ -204,11 +151,29 @@ else
 					auto_show_delay_ms = 200,
 				},
 				ghost_text = {
-					enabled = true
+					enabled = vim.g.ai_cmp,
 				},
 			},
+
+			-- experimental signature help support
+			-- signature = { enabled = true },
+
+			sources = {
+				-- adding any nvim-cmp sources here will enable them
+				-- with blink.compat
+				compat = {},
+				default = { "lsp", "path", "snippets", "buffer" },
+				cmdline = {},
+			},
+
+			keymap = {
+				preset = "enter",
+				["<C-y>"] = { "select_and_accept" },
+			},
 		},
+		---@param opts blink.cmp.Config | { sources: { compat: string[] } }
 		config = function(_, opts)
+			-- setup compat sources
 			local enabled = opts.sources.default
 			for _, source in ipairs(opts.sources.compat or {}) do
 				opts.sources.providers[source] = vim.tbl_deep_extend(
@@ -220,12 +185,11 @@ else
 					table.insert(enabled, source)
 				end
 			end
-			opts.sources.completion = opts.sources.completion or {}
-			opts.sources.completion.enabled_providers = enabled
-			if vim.tbl_get(opts, "completion", "menu", "draw", "treesitter") then
-				---@diagnostic disable-next-line: assign-type-mismatch
-				opts.completion.menu.draw.treesitter = true
-			end
+
+			-- Unset custom prop to pass blink.cmp validation
+			opts.sources.compat = nil
+
+			-- check if we need to override symbol kinds
 			for _, provider in pairs(opts.sources.providers or {}) do
 				---@cast provider blink.cmp.SourceProviderConfig|{kind?:string}
 				if provider.kind then
@@ -254,6 +218,6 @@ else
 			end
 
 			require("blink.cmp").setup(opts)
-		end
+		end,
 	}
 end
