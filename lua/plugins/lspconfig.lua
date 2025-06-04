@@ -54,6 +54,8 @@ return {
 			}
 		})
 
+		lsp.svelte.setup({})
+		lsp.tailwindcss.setup({})
 		lsp.powershell_es.setup({
 			--cmd = { 'pwsh', '-NoLogo', '-NoProfile', '-Command', "C:/tools/PowerShellEditorServices/PowerShellEditorServices/Start-EditorServices.ps1" },
 			bundle_path = "C:/tools/PowerShellEditorServices/PowerShellEditorServices",
